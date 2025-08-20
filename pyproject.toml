@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rendu"
+version = "0.0.1"
+authors = [
+    {name = "Mattia Borsalino", email = "mattia.borsalino@gmail.com"},
+]
+description = "A library to programmatically create presentation reports"
+readme = "README.md"
+requires-python = ">=3.7.4"
+dependencies = []
+
+[tool.setuptools.packages.find]
+exclude = ["*misc*"]
+
+[tool.setuptools.package-data]
+rendu = ["report/*"]
