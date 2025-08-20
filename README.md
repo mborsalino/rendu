@@ -23,7 +23,7 @@ Rendu is particularly useful to create and assemble a slide deck as a final pipe
 
 ![First slide of example in next section](/doc/img/penguins_screenshot_01.png)
 ![Second slide of example in next section](/doc/img/penguins_screenshot_02.png)
-![Third slide of example in next section](/doc/img/penguins_screenshot_02.png)
+![Third slide of example in next section](/doc/img/penguins_screenshot_03.png)
 
 ## Quick Start-Up Reference
 
