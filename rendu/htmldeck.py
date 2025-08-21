@@ -340,9 +340,9 @@ class HtmlSlideDeck(object):
         return self.slides[slide_num]
 
 
-    def _check_slide_numbers(self):
+    def _check_slide_contiguity(self):
         if sorted(self.slides.keys()) != list(range(len(self.slides.keys()))):
-            msg = 'Slide numbering should start from 0 and have no holes'
+            msg = 'Slide numbering should be contiguous and start from 0'
             raise RenduError(msg)
 
 
@@ -350,7 +350,7 @@ class HtmlSlideDeck(object):
 
         # make sure we start from slide 0 and there are no holes
         # this is a current limitation of the Javascript function
-        self._check_slide_numbers()
+        self._check_slide_contiguity()
 
         # Read CSS Content
         css_path = osp.join(osp.dirname(__file__), 'render', 'render_styles.css')
