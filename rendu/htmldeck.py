@@ -353,14 +353,14 @@ class HtmlSlideDeck(object):
         self._check_slide_numbers()
 
         # Read CSS Content
-        css_path = osp.join(osp.dirname(__file__), 'report', 'report_styles.css')
+        css_path = osp.join(osp.dirname(__file__), 'render', 'render_styles.css')
         if not osp.exists(css_path):
             raise RenduError('Could not find CSS file %s'%css_path)
         with open(css_path, 'r') as fh:
             css = fh.read()
 
         # Read CSS Content
-        script_path = osp.join(osp.dirname(__file__), 'report', 'report_scripts.js')
+        script_path = osp.join(osp.dirname(__file__), 'render', 'render_scripts.js')
         if not osp.exists(script_path):
             raise RenduError('Could not find script file %s'%script_path)
         with open(script_path, 'r') as fh:
