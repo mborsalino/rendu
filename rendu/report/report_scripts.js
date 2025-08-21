@@ -56,9 +56,11 @@ function save_raw(section_id) {
 
 function save(filename, data) {
     const blob = new Blob([data], {type: 'text/csv'});
-    if(window.navigator.msSaveOrOpenBlob) {
+    // IE
+    if(window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(blob, filename);
     }
+    // non-IE (chrome, firefox, etc.)
     else{
         const elem = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
@@ -69,5 +71,6 @@ function save(filename, data) {
     }
 }
 
+// When loaded, start by displaying the first slide
 show(0);
 
