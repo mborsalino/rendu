@@ -21,6 +21,8 @@ keywords = ["presentation", "report", "slide", "powerpoint", "keynote"]
 dependencies = []
 
 [project.urls]
+Homepage = "https://github.com/mborsalino/rendu"
+Repository = "https://github.com/mborsalino/rendu.git"
 
 [tool.setuptools.packages.find]
 exclude = ["*misc*"]
