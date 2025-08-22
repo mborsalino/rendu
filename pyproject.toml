@@ -28,4 +28,4 @@ Repository = "https://github.com/mborsalino/rendu.git"
 exclude = ["*misc*"]
 
 [tool.setuptools.package-data]
-rendu = ["report/*"]
+rendu = ["render/*"]
