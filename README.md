@@ -27,7 +27,7 @@ Rendu is particularly useful to create and assemble a slide deck as a final pipe
 
 ## Quick Start-Up Reference
 
-The following example uses Pandas and Seaborn to download a dataset, compute some statistics on it and plot a histogram and save data into a CSV file. The dataset analysis is just an example that is used to showcase how to create a Rendu slide deck and add text, plots and even embed the raw CSV file into the final document.
+The following example uses Pandas and Seaborn to download a dataset, compute some statistics on it and plot a histogram and save data into a CSV file. The dataset analysis is just an example that is used to showcase how to create a Rendu slide deck and add text, plots and even embed the raw CSV file into the final document. The resulting HTML rendering is shown in the screenshots of the previous section.
 
 ```python
 import os
