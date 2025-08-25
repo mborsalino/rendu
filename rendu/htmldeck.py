@@ -6,17 +6,28 @@ from io import BytesIO
 
 
 class RenduError(Exception):
+    """
+    Generic Rendu exception
+    """
     pass
 
 class ArgError(RenduError):
+    """
+    Rendu exception for wrong args passed to a method
+    """
     pass
 
 class DuplicateError(RenduError):
+    """
+    Rendu exception used when attempting to duplicate a  resource meant to be
+    unique (e.g. title slide, slide num etc.)
+    """
     pass
 
 
-class HtmlDivContainer(object):
+class HtmlDivContainer():
     """
+    @private
     Class that represents an HTML division.
 
     Objects of this class allow to fully represent a division, both in terms
@@ -186,29 +197,118 @@ class HtmlDivContainer(object):
 
 
 class SlideDivContainer(HtmlDivContainer):
+    """
+    Class that represents either the main or side section of a slide
+    """
+
+    def add_h1(self, txt):
+        """
+        Add level-1 header to the slide section
+
+        Parameters
+        ----------
+        txt: str
+            The text of the paragraph
+        """
+        super().add_h1(self, txt, classes=None)
+
+
+    def add_h2(self, txt):
+        """
+        Add level-2 header to the slide section
+
+        Parameters
+        ----------
+        txt: str
+            The text of the paragraph
+        """
+        super().add_h2(self, txt, classes=None)
+
+
+    def add_h3(self, txt):
+        """
+        Add level-3 header to the slide section
+
+        Parameters
+        ----------
+        txt: str
+            The text of the paragraph
+        """
+        super().add_h3(self, txt, classes=None)
+
 
     def add_p(self, txt):
-        super(SlideDivContainer, self).add_p(txt, classes=['slidep'])
+        """
+        Add paragraph to the slide section
+
+        Parameters
+        ----------
+        txt: str
+            The text of the paragraph
+        """
+        super().add_p(txt, classes=['slidep'])
 
 
     def add_ul(self, li_list):
-        super(SlideDivContainer, self).add_ul(li_list, classes=['slidelists'])
+        """
+        Add bulleted list (unsorted list) to the slide section
+
+        Parameters
+        ----------
+        li_list: list of str
+            A list of strings, each string being one item of the bulleted list
+        """
+        super().add_ul(li_list, classes=['slidelists'])
 
 
     def add_ol(self, li_list):
-        super(SlideDivContainer, self).add_ol(li_list, classes=['slidelists'])
+        """
+        Add numbering list (ordered list) to the slide section
+
+        Parameters
+        ----------
+        li_list: list of str
+            A list of strings, each string being one item of the numbering list
+        """
+
+        super().add_ol(li_list, classes=['slidelists'])
 
 
+    def add_figure(self, fig_path, caption=None): 
+        """
+        Add figure to the slide section (png or jpg)
 
-class Slide(object):
+        Parameters
+        ----------
+        fig_path: str
+            The full path of the png/jpg figure to be inserted
+        caption: str, optional
+            The optional caption to be added to the figure
+        """
+        super().add_figure(fig_path, caption=caption, classes=None)
+
+  
+    def add_html(self, html):
+        """
+        Add a generic html block to the slide section (experimental)
+
+        Parameters
+        ----------
+        html: str
+            The html code to be added (no validation is performed)
+        """
+        super().add_html(html) 
+
+
+class Slide():
     """
     Class that holds the content and CSS references for a generic 
     slide in HTML slide decks
     """
     def __init__(self, slide_num, title, short):
         """
-        Parameters:
-        -----------
+        Parameters
+        ----------
         slide_num: int
             The slide number
         title: str
@@ -221,9 +321,11 @@ class Slide(object):
         self.short = short
         self.main = SlideDivContainer(div_id='slide_%d'%self.num,
                                       div_classes=['slide']) 
+        """ The main section of the slide (see `SlideDivContainer`) """
         self.main.add_h1(title, classes=['titleslide'])
         self.side = SlideDivContainer(div_id='notes_%d'%self.num,
                                       div_classes=['notes'])
+        """ The side section of the slide (see `SlideDivContainer`) """
 
 
 class RawDataSlide(Slide):
@@ -233,8 +335,8 @@ class RawDataSlide(Slide):
 
     def __init__(self, slide_num, title, short, raw_file_path, btn_label=None):
         """
-        Parameters:
-        -----------
+        Parameters
+        ----------
         slide_num: int
             The slide number
         title: str
@@ -243,14 +345,11 @@ class RawDataSlide(Slide):
             A short slide description to be used in report navigation widget
         raw_file_path: str
             path of file containing raw data to be embedded
-
-        Keyword Parameters:
-        ------------------
-        btn_label: str or None
+        btn_label: str, optional
             String to be used as label that gets placed next to the button widget
             Default: the file name (without the leading path)
         """
-        super(RawDataSlide, self).__init__(slide_num, title, short)
+        super().__init__(slide_num, title, short)
 
         self.fpath = raw_file_path
         self.btn_label = btn_label
@@ -270,18 +369,18 @@ class RawDataSlide(Slide):
             '</div>\n'%(btn_label, fname, fname, raw_data))
 
 
-class HtmlSlideDeck(object):
+class HtmlSlideDeck():
+    """
+    Class that represents a deck of slides
+    """
 
     def __init__(self, title, footer=None):
         """
-        Parameters:
-        -----------
+        Parameters
+        ----------
         title: str
             The report title (common to every slide)
-        
-        Keyword Parameters:
-        -------------------
-        footer: str or None
+        footer: str, optional
             If specified, a footer common to every slide
         """
         self.title = title
@@ -294,7 +393,7 @@ class HtmlSlideDeck(object):
         """
         Add a slide to the report.
 
-        Parameters:
+        Parameters
         ----------
         slide_num: int
             The slide number, must be unique within the report
@@ -302,6 +401,16 @@ class HtmlSlideDeck(object):
             The title to be displayed at the top of the slide
         short: str
             A short slide description to be used in report navigation widget
+        
+        Returns
+        -------
+        slide: `Slide` 
+            the slide object that has been added to the slide deck
+
+        Raises
+        ------
+        DuplicateError
+            If a slide with the same `slide_num` was already added
         """
         if slide_num in self.slides.keys():
             raise DuplicateError("Slide #%d already_exists"%slide_num)
@@ -313,7 +422,7 @@ class HtmlSlideDeck(object):
         """
         Add a slide to the report for embedding raw data.
 
-        Parameters:
+        Parameters
         ----------
         slide_num: int
             The slide number, must be unique within the report
@@ -326,6 +435,11 @@ class HtmlSlideDeck(object):
         btn_label:
             String to be used as label placed next to the button widget
             Default: the file name (without the leading path)
+
+        Returns
+        -------
+        slide: `RawDataSlide` 
+            the slide object that has been added to the slide deck
         """
         if slide_num in self.slides.keys():
             raise DuplicateError("Slide #%d already_exists"%slide_num)
@@ -428,11 +542,16 @@ class HtmlSlideDeck(object):
         The report must have slide indexes that start from zero and are
         contiguous or it will raise an exception.
 
-        Parameters:
+        Parameters
         ----------
         filename: str
             The full path of the output file to be generated. If the file
             already exists it will be overwritten
+
+        Raises
+        ------
+        RenduError
+            non-contiguous slide indexes or non-existing file/folder
         """
         with open(filename, 'w') as fh:
             fh.write(self._to_html())
