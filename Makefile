@@ -1,7 +1,7 @@
 .PHONY: build clean doc
 
 tag:
-ifndef RENDU_VERSION
+ifndef RENDU_VERSION_TAG
 	@echo no version specified && false
 endif
 	git tag $(RENDU_VERSION_TAG)
@@ -13,7 +13,7 @@ build: clean
 
 doc:
 	pdoc ./rendu/htmldeck.py -o ./build/doc/pdoc --docformat numpy --no-show-source --no-include-undocumented
-ifdef RENDU_VERSION
+ifdef RENDU_VERSION_TAG
 	mv ./build/doc/pdoc/rendu/htmldeck.html ./build/doc/podc/rendu/htmldeck_$(RENDU_VERSION_TAG).html 
 endif
 

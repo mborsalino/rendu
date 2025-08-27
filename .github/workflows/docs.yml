@@ -44,7 +44,7 @@ jobs:
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './build/doc/pdoc/'
-          production-branch: dev
+          production-branch: master 
           # github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy version ${{ env.GITHUB_REF_NAME }} from GitHub Actions"
           enable-pull-request-comment: false
