@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './build/doc/pdoc/'
+          publish-dir: './build/doc/pdoc/rendu'
           production-branch: master 
           # github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy version ${{ env.GITHUB_REF_NAME }} from GitHub Actions"
