@@ -14,7 +14,7 @@ build: clean
 doc:
 	pdoc ./rendu/htmldeck.py -o ./build/doc/pdoc --docformat numpy --no-show-source --no-include-undocumented
 ifdef RENDU_VERSION_TAG
-	mv ./build/doc/pdoc/rendu/htmldeck.html ./build/doc/podc/rendu/htmldeck_$(RENDU_VERSION_TAG).html 
+	mv ./build/doc/pdoc/rendu/htmldeck.html ./build/doc/pdoc/rendu/htmldeck_$(RENDU_VERSION_TAG).html 
 endif
 
 release: tag build doc
