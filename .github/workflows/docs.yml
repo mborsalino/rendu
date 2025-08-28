@@ -45,8 +45,12 @@ jobs:
           git fetch --all
           git checkout pubdoc
           mv build/doc/rendu_$GITHUB_REF_NAME doc/pub_doc/archive/
+          echo $GITHUB_REF_NAME >> doc/pub_doc/api_versions.txt
+          ./doc/make_index.py
           git config --global user.email "mborsalino@users.noreply.github.com"
           git config --global user.name "Mattia Borsalino"
+          git add doc/pub_doc/api_versions.txt
+          git add doc/pub_doc/index.html
           git add doc/pub_doc/archive/rendu_$GITHUB_REF_NAME 
           git commit -am"[AUTO] add version api doc $GITHUB_REF_NAME"
           git push origin pubdoc
