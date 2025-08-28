@@ -12,10 +12,10 @@ build: clean
 	mv  ./rendu.egg-info build/
 
 doc:
-	pdoc ./rendu/htmldeck.py -o ./build/doc/pdoc --docformat numpy --no-show-source --no-include-undocumented
-ifdef RENDU_VERSION_TAG
-	mv ./build/doc/pdoc/rendu/htmldeck.html ./build/doc/pdoc/rendu/htmldeck_$(RENDU_VERSION_TAG).html 
+ifndef RENDU_VERSION_TAG
+	@echo no version specified && false
 endif
+	pdoc ./rendu/htmldeck.py -o ./build/doc/rendu_$(RENDU_VERSION_TAG) --docformat numpy --no-show-source --no-include-undocumented
 
 release: tag build doc
 	python3 -m twine upload build/rendu-*.tar.gz build/rendu-*.whl

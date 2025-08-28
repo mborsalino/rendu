@@ -14,7 +14,7 @@ on:
 
 # security: restrict permissions for CI jobs.
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy_docs:
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Setup Python 3.13
         uses: actions/setup-python@v5
@@ -40,14 +40,24 @@ jobs:
         run:
           RENDU_VERSION_TAG=$GITHUB_REF_NAME make doc
 
+      - name: Commit new pub doc version
+        run: |
+          git fetch --all
+          git checkout pubdoc
+          mv build/doc/rendu_$GITHUB_REF_NAME doc/pub_doc/archive/
+          git config --global user.email "mborsalino@users.noreply.github.com"
+          git config --global user.name "Mattia Borsalino"
+          git add doc/pub_doc/archive/rendu_$GITHUB_REF_NAME 
+          git commit -am"[AUTO] add version api doc $GITHUB_REF_NAME"
+          git push origin pubdoc
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: './build/doc/pdoc/rendu'
+          publish-dir: './doc/pub_doc/'
           production-branch: master 
           # github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy version ${{ env.GITHUB_REF_NAME }} from GitHub Actions"
-          enable-pull-request-comment: false
           enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
