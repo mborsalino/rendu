@@ -32,7 +32,7 @@ Rendu is available on PyPI and can be installed via pip:
 pip install rendu
 ```
 
-## Quick Start-Up Reference
+## Quick Start-Up Example
 
 The following example uses Pandas and Seaborn to download a dataset, compute some statistics on it and plot a histogram and save data into a CSV file. The dataset analysis is just an example that is used to showcase how to create a Rendu slide deck and add text, plots and even embed the raw CSV file into the final document. The resulting HTML rendering is shown in the screenshots of the previous section.
 
@@ -92,3 +92,6 @@ s = rep.add_raw_data_slide(2, "Raw Data", "Raw Data", './tmp/penguins.csv')
 # Save report
 rep.save('./tmp/penguin_report.html')
 ```
+
+## More Documentation
+The full library API reference is available at [this link](https://rendu-python.netlify.app/)
